@@ -152,6 +152,7 @@ def main():
 
     for iteration in range(10):
         FscoresAll=[]
+        FscoresDivided=[]
 
         for maxIter in maxIters:
             #Zmienne przechowujące wylosowane dane
@@ -223,7 +224,8 @@ def main():
             Fscores.sort(key=takeFirst)
             print(Fscores)
 
-            FscoresAll.append(Fscores.copy())
+            FscoresAll.extend(Fscores.copy())
+            FscoresDivided.append(Fscores.copy())
 
             Pscores = np.array(Pscores)
             Fscores = np.array(Fscores)
@@ -245,12 +247,27 @@ def main():
             plt.show()
         
         #Wykresy HVI
-        print(FscoresAll)
-        #FscoresAll = np.array(FscoresAll)
-        print(FscoresAll)
-        Z = [max(FscoresAll[:, :, 0]), max(FscoresAll[:, :, 1])]
+        
+        FscoresAll.sort(key=takeSecond)
+        FscoresAll.sort(key=takeFirst)
+        FscoresAll = np.array(FscoresAll)
+        Z = [max(FscoresAll[:, 0]), max(FscoresAll[:, 1])]
 
+        for k in range(len(maxIters)):
+            array = FscoresDivided[k]
+            array.sort(key=takeSecond)
+            array.sort(key=takeFirst)
+            array = np.array(array)
+            plt.scatter(Z[0], Z[1], label="Z", c="b")
+            plt.plot(array[:, 0], array[:, 1], 'o-', label="Punkty - "+str(maxIters[k]))
 
+        plt.grid(True)
+        plt.xlabel("Makespace")
+        plt.ylabel("MaxTardiness")
+        plt.title("Wykresu HVI - iter: "+str(iteration))
+        plt.legend()
+        #plt.savefig("WykresRSWyniki.jpg", dpi=72)
+        plt.show()
             
 
 main()
