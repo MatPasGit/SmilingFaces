@@ -3,6 +3,7 @@ import numpy as np
 from RandomNumberGenerator import RandomNumberGenerator
 import math
 import random
+from matplotlib import pyplot as plt
 
 #Zmienne
 
@@ -14,6 +15,14 @@ maxIter = 100  # maksymalna liczba iteracji
 #DWA PIERWSZE KRYTERIA: 1 (makespan) i 3 (max tardiness)
 # Makespan - czas zakończenia wszystkich zadań
 # Max tardiness - maksymalne spóźnienie zadania
+
+def takeFirst(elem):
+    return elem[0]
+
+def takeSecond(elem):
+    return elem[1]
+
+
 
 def acceptProbability(i, it):
     if i == 0:
@@ -142,6 +151,8 @@ def main():
     maxIters = [100, 200, 400, 800, 1600]
 
     for iteration in range(10):
+        FscoresAll=[]
+
         for maxIter in maxIters:
             #Zmienne przechowujące wylosowane dane
             tablep = []
@@ -199,11 +210,47 @@ def main():
                 it = it+1
 
             #Pareto
-            F, Fscore = frontParetoF(P, tablep, tabled)
+            F, Fscores = frontParetoF(P, tablep, tabled)
 
-            #Wykresy i HVI
+            #Wykresy P i F
             print(str(iteration)+", "+str(maxIter))
 
+            print(Pscores)
+            print(Fscores)
+
+            Fscores.sort(key=takeSecond)
+            print(Fscores)
+            Fscores.sort(key=takeFirst)
+            print(Fscores)
+
+            FscoresAll.append(Fscores.copy())
+
+            Pscores = np.array(Pscores)
+            Fscores = np.array(Fscores)
+
+            x = Pscores[:, 0]
+            y = Pscores[:, 1]
+            plt.scatter(x, y, label="P", c="b")
+
+            x = Fscores[:, 0]
+            y = Fscores[:, 1]
+            plt.plot(x, y, 'ro-', label="F")
+
+            plt.grid(True)
+            plt.xlabel("Makespace")
+            plt.ylabel("MaxTardiness")
+            plt.title("Wykresu zbioru i frontu Pareto dla dwóch kryteriów - iter: "+str(iteration)+", maxIter: "+str(maxIter))
+            plt.legend()
+            #plt.savefig("WykresRSWyniki.jpg", dpi=72)
+            plt.show()
         
+        #Wykresy HVI
+        print(FscoresAll)
+        #FscoresAll = np.array(FscoresAll)
+        print(FscoresAll)
+        Z = [max(FscoresAll[:, :, 0]), max(FscoresAll[:, :, 1])]
+
+
+            
 
 main()
