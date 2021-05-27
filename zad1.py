@@ -143,12 +143,31 @@ def frontParetoF(P, tablep, tabled):
             Fscore.append([makespan, maxTardiness])
     return F, Fscore
 
-def calculateHVI():
-    return 0
+def calculateHVI(Z, array):
+
+    if len(array) == 3:
+        a = Z[0] - array[1][0]
+        b = Z[1] - array[1][1]
+        return a*b
+    else:
+        area = 0
+        A = Z.copy()
+        for i in range(len(array)):
+            if i == 0:
+                continue
+            elif i == len(array)-1:
+                continue
+            else:
+                a = A[0] - array[i][0]
+                b = A[1] - array[i][1]
+                area = area + a*b
+                A[1] = array[i][1]
+        return area
 
 def main():
 
     maxIters = [100, 200, 400, 800, 1600]
+    HVIscores = []
 
     for iteration in range(10):
         FscoresAll=[]
@@ -216,13 +235,13 @@ def main():
             #Wykresy P i F
             print(str(iteration)+", "+str(maxIter))
 
-            print(Pscores)
-            print(Fscores)
+            #print(Pscores)
+            #print(Fscores)
 
             Fscores.sort(key=takeSecond)
-            print(Fscores)
+            #print(Fscores)
             Fscores.sort(key=takeFirst)
-            print(Fscores)
+            #print(Fscores)
 
             FscoresAll.extend(Fscores.copy())
             FscoresDivided.append(Fscores.copy())
@@ -243,8 +262,11 @@ def main():
             plt.ylabel("MaxTardiness")
             plt.title("Wykresu zbioru i frontu Pareto dla dwóch kryteriów - iter: "+str(iteration)+", maxIter: "+str(maxIter))
             plt.legend()
-            #plt.savefig("WykresRSWyniki.jpg", dpi=72)
-            plt.show()
+            plt.savefig(".\Zad1\WykresPareto"+str(maxIter)+"iter"+str(iteration)+".jpg", dpi=72)
+            #plt.show()
+            plt.close()
+            plt.cla()
+            plt.clf()
         
         #Wykresy HVI
         
@@ -253,21 +275,37 @@ def main():
         FscoresAll = np.array(FscoresAll)
         Z = [max(FscoresAll[:, 0]), max(FscoresAll[:, 1])]
 
+        plt.scatter(Z[0], Z[1], label="Z", c="b")
+
         for k in range(len(maxIters)):
             array = FscoresDivided[k]
+            #print(array)
+            temp = []
+            array.sort(key=takeFirst)
+            temp.append([array[0][0],Z[1]])
+            temp.append([Z[0], array[-1][1]])
+            #print(temp)
+            array.extend(temp)
             array.sort(key=takeSecond)
             array.sort(key=takeFirst)
             array = np.array(array)
-            plt.scatter(Z[0], Z[1], label="Z", c="b")
-            plt.plot(array[:, 0], array[:, 1], 'o-', label="Punkty - "+str(maxIters[k]))
+            plt.step(array[:, 0], array[:, 1], 'o-', label="Punkty - "+str(maxIters[k]))
+            HVIscores.append(calculateHVI(Z, array))
 
         plt.grid(True)
         plt.xlabel("Makespace")
         plt.ylabel("MaxTardiness")
         plt.title("Wykresu HVI - iter: "+str(iteration))
         plt.legend()
-        #plt.savefig("WykresRSWyniki.jpg", dpi=72)
-        plt.show()
-            
+        plt.savefig(".\Zad1\WykresHVIiter"+str(iteration)+".jpg", dpi=72)
+        plt.close()
+        plt.cla()
+        plt.clf()
+        #plt.show()
+        
+    #Wyniki średnie HVI
+    for k in range(len(maxIters)):
+        print("Dla "+str(maxIters[k])+" iteracji, HVI= " +
+              str(np.mean(HVIscores[k::len(maxIters)]))+", std= "+str(np.std(HVIscores[k::len(maxIters)])))
 
 main()
