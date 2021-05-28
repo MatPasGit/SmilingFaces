@@ -4,6 +4,7 @@ from RandomNumberGenerator import RandomNumberGenerator
 import math
 import random
 from matplotlib import pyplot as plt
+from chernoff import *
 
 #Zmienne
 
@@ -309,6 +310,9 @@ def main():
 
             #Metoda 4 (star cordinate system)
 
+            #Osobny plik TEX i PDF
+
             #Metoda 7 (Chernoff faces)
+
 
 main()
