@@ -288,6 +288,9 @@ def main():
             plt.legend()
             plt.savefig(".\WykresSlupkowy.jpg", dpi=72)
             plt.show()
+            plt.close()
+            plt.cla()
+            plt.clf()
 
             #Metoda 2 (value paths)
 
@@ -307,12 +310,25 @@ def main():
             plt.legend()
             plt.savefig(".\WykresSciezekWartosci.jpg", dpi=72)
             plt.show()
+            plt.close()
+            plt.cla()
+            plt.clf()
 
             #Metoda 4 (star cordinate system)
 
             #Osobny plik TEX i PDF
 
             #Metoda 7 (Chernoff faces)
+
+            for k in range(4):
+                maxNumber = max(arraytovisualisation[k])
+                minNumber = min(arraytovisualisation[k])
+                zakres = maxNumber-minNumber
+                arrayToFaces = []
+                for i in range(4):
+                    arrayToFaces.append((arraytovisualisation[k][i]-minNumber)/zakres)
+
+                drawFace(arrayToFaces[0],arrayToFaces[1],arrayToFaces[2],arrayToFaces[3],"Face"+str(k))
 
 
 main()

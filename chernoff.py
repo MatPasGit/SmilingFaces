@@ -80,32 +80,32 @@ def cface(ax, x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15,x16,x17,x18):
     ax.plot([-x11-x14/2-x14*x18/2,-x11-x14/2+x14*x18/2],[x10+x13*x14*(x16+x17)+x14*0.6,x10+x13*x14*(x16-x17)+x14*0.6],'k')
     ax.plot([x11+x14/2+x14*x18/2,x11+x14/2-x14*x18/2],[x10+x13*x14*(x16+x17)+x14*0.6,x10+x13*x14*(x16-x17)+x14*0.6],'k')
 
-def drawFace(c1, c2, c3, c4):
+def drawFace(c1, c2, c3, c4, name):
     fig = plt.figure(figsize=(11,11))
     ax = fig.add_subplot(1,1,1,aspect='equal')
     x1 = 0.7
     x2 = 1.0
     x3 = 0.0
     x4 = 0.5
-    x5 = 0.5
-    x6 = c1
-    x7 = c2 * 0.4 + 0.3
-    x8 = c2
-    x9 = 1.0 - c2 * 0.7
-    x10 = c3 * 0.4 - 0.3
-    x11 = c3 * 0.8 + 0.2
-    x12 = c1
-    x13 = c3 * 0.7 + 0.3
-    x14 = c2 * 0.5 + 0.3
+    x5 = c4
+    x6 = 0.6
+    x7 = 0.4
+    x8 = 0.25
+    x9 = c1
+    x10 = 0.2
+    x11 = 0.33
+    x12 = 0.6
+    x13 = 0.42
+    x14 = 0.425
     x15 = 0.5
-    x16 = 0
-    x17 = c1
-    x18 = c4 + 0.3
+    x16 = c2
+    x17 = 0.6
+    x18 = c3
     cface(ax, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18)
     ax.axis([-1.0,1.0,-1.15,1])
     ax.set_xticks([])
     ax.set_yticks([])
     fig.subplots_adjust(hspace=0, wspace=0)
-    plt.savefig('face.png', bbox_inches='tight')
+    plt.savefig(name+'.png', bbox_inches='tight')
 
-drawFace(0.6, 0.250, 0.167, 0.625)
+drawFace(0.6, 0.250, 0.167, 0.2,'przyklad')
