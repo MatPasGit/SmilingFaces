@@ -260,7 +260,52 @@ def main():
 
             #Metoda 1 (bar plots)
 
+            arraytovisualisation = np.array(arraytovisualisation)
+            barWidth = 0.20
+            fig = plt.subplots(figsize=(12, 8))
+
+            Kryt1 = arraytovisualisation[:, 0]
+            Kryt2 = arraytovisualisation[:, 1]
+            Kryt3 = arraytovisualisation[:, 2]
+            Kryt4 = arraytovisualisation[:, 3]
+
+            br1 = np.arange(len(Kryt1))
+            br2 = [x + barWidth for x in br1]
+            br3 = [x + barWidth for x in br2]
+            br4 = [x + barWidth for x in br3]
+
+            plt.bar(br1, Kryt1, color='b', width=barWidth,
+                    edgecolor='grey', label='Krit1')
+            plt.bar(br2, Kryt2, color='r', width=barWidth,
+                    edgecolor='grey', label='Krit2')
+            plt.bar(br3, Kryt3, color='y', width=barWidth,
+                    edgecolor='grey', label='Krit3')
+            plt.bar(br4, Kryt4, color='g', width=barWidth,
+                    edgecolor='grey', label='Krit4')
+
+            plt.xticks([r + barWidth for r in range(len(Kryt1))], ['rozw1', 'rozw2', 'rozw3', 'rozw4'])
+            plt.legend()
+            plt.savefig(".\WykresSlupkowy.jpg", dpi=72)
+            plt.show()
+
             #Metoda 2 (value paths)
+
+            Kryt1 = arraytovisualisation[0]
+            Kryt2 = arraytovisualisation[1]
+            Kryt3 = arraytovisualisation[2]
+            Kryt4 = arraytovisualisation[3]
+
+            br1 = np.arange(len(Kryt1))
+
+            plt.plot(br1, Kryt1, color='b', label='rozw1')
+            plt.plot(br1, Kryt2, color='r', label='rozw2')
+            plt.plot(br1, Kryt3, color='y', label='rozw3')
+            plt.plot(br1, Kryt4, color='g', label='rozw4')
+
+            plt.xticks([r + barWidth for r in range(len(Kryt1))], ['Krit1', 'Krit2', 'Krit3', 'Krit4'])
+            plt.legend()
+            plt.savefig(".\WykresSciezekWartosci.jpg", dpi=72)
+            plt.show()
 
             #Metoda 4 (star cordinate system)
 
