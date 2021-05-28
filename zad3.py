@@ -229,6 +229,41 @@ def main():
 
             #Pareto
             F, Fscores = frontParetoF(P, tablep, tabled)
+            #print(F)
+            print(Fscores)
 
+            arraytovisualisation = []
+            for i in range(3):
+                if i < len(F):
+                    arraytovisualisation.append(Fscores[i].copy())
+                else:
+                    xPrim = movefunction("insert", F[0])
+                    makespan, maxTardiness, maxTotalTardiness, maxLateness = checkSolution(xPrim, tablep, tabled)
+                    arraytovisualisation.append([makespan, maxTardiness, maxTotalTardiness, maxLateness])
+
+            x = randomSolution()
+            makespan, maxTardiness, maxTotalTardiness, maxLateness = checkSolution(x, tablep, tabled)
+            arraytovisualisation.append([makespan, maxTardiness, maxTotalTardiness, maxLateness])
+            print(arraytovisualisation)
+            #Zakresy z Fscores i arraytovisualisation
+            zakresy = []
+            Fscores = np.array(Fscores)
+            arraytovisualisation = np.array(arraytovisualisation)
+            for i in range(4):
+                dolny = min(min(Fscores[:,i]), min(arraytovisualisation[:,i]))
+                gorny = max(max(Fscores[:, i]), max(arraytovisualisation[:,i]))
+                zakresy.append([dolny, gorny])
+
+            print(zakresy)
+
+            #Wizualizacje
+
+            #Metoda 1 (bar plots)
+
+            #Metoda 2 (value paths)
+
+            #Metoda 4 (star cordinate system)
+
+            #Metoda 7 (Chernoff faces)
 
 main()
